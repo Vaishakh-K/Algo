@@ -1,3 +1,4 @@
+// Author - Vaishakh K
 package sorting;
 
 public class MergeSort {
