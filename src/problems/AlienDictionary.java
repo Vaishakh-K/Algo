@@ -73,7 +73,5 @@ public class AlienDictionary {
     }
 
     return order.toString();
-
-
   }
 }
