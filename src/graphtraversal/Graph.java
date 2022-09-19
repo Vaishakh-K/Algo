@@ -1,22 +1,20 @@
 // Author - Vaishakh K
 package graphtraversal;
 
-import java.util.LinkedList;
+import java.util.*;
 
 public class Graph {
-  public int vertexCount;
-  public LinkedList<Integer>[] edges;
+  public Map<Character, HashSet<Character>> graph = new HashMap<Character, HashSet<Character>>();
 
-  public Graph(int vertexCount) {
-    this.vertexCount = vertexCount;
-    this.edges = new LinkedList[vertexCount];
+  public Graph() {}
 
-    for (int idx = 0; idx < vertexCount; idx++) {
-      this.edges[idx] = new LinkedList<Integer>();
-    }
+  public void addEdge(Character src, Character target) {
+    HashSet<Character> adjNodes = graph.getOrDefault(src, new HashSet<Character>());
+    adjNodes.add(target);
+    graph.put(src, adjNodes);
   }
 
-  public void addEdge(int source, int target) {
-    this.edges[source].add(target);
+  public Map<Character, HashSet<Character>> getGraph() {
+    return graph;
   }
 }

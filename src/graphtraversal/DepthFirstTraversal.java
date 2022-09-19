@@ -1,45 +1,49 @@
 // Author - Vaishakh K
 package graphtraversal;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
-public class DepthFirstTraversal implements GraphTraversal{
-  @Override
-  public void search(Graph graph, int sourceVertex) {
-    Set<Integer> visited = new HashSet<Integer>();
-    searchHelper(graph, visited, sourceVertex);
+public class DepthFirstTraversal {
+  public static void main(String[] args) {
+    Map<Character, HashSet<Character>> graph = getGraph();
+    Set<Character> visited = new HashSet<Character>();
+    ArrayList<Character> dfsTraversed = new ArrayList<Character>();
+    printTraversedTree(traverse(graph, dfsTraversed, visited, 'a'));
   }
 
-  public void searchHelper(Graph graph, Set<Integer> visited, int vertex) {
-    System.out.format("Vertex = %d\n", vertex);
-    visited.add(vertex);
-    LinkedList<Integer> adjVertices = graph.edges[vertex];
-    for (int idx = 0; idx < adjVertices.size(); idx++) {
-      Integer adjVertex = adjVertices.get(idx);
-      if (!visited.contains(adjVertex)) {
-        searchHelper(graph, visited, adjVertex);
+  public static ArrayList<Character> traverse(Map<Character, HashSet<Character>> graph,
+                                              ArrayList<Character> dfsTraversed,
+                                              Set<Character> visited,
+                                              Character node) {
+    dfsTraversed.add(node);
+    if (graph.containsKey(node)) {
+      for (Character adjNode: graph.get(node)) {
+        if (!visited.contains(adjNode)) {
+          visited.add(adjNode);
+          traverse(graph, dfsTraversed, visited, adjNode);
+        }
       }
     }
+
+    return dfsTraversed;
   }
 
-  public static void main (String[] args) {
-    DepthFirstTraversal depthFirstTraversal = new DepthFirstTraversal();
-    Graph graph = new Graph(5);
+  public static void printTraversedTree(ArrayList<Character> traversedTree) {
+    for (Character ch: traversedTree) {
+      System.out.format("%c ", ch);
+    }
+    System.out.println("");
+  }
 
-    graph.addEdge(0, 0);
-    graph.addEdge(0, 2);
-    graph.addEdge(0, 3);
-    graph.addEdge(2, 3);
-    graph.addEdge(2, 4);
-    graph.addEdge(2, 2);
-    graph.addEdge(3, 0);
-    graph.addEdge(3, 1);
+  public static Map<Character, HashSet<Character>> getGraph() {
+    Graph graph = new Graph();
+    graph.addEdge('a', 'b');
+    graph.addEdge('a', 'c');
+    graph.addEdge('b', 'd');
+    graph.addEdge('c', 'e');
+    graph.addEdge('d', 'f');
 
-    int sourceVertex = 0;
-    System.out.println("Depth First Traversal:");
-    depthFirstTraversal.search(graph, sourceVertex);
+    return graph.getGraph();
   }
 
 }

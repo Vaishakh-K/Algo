@@ -1,49 +1,54 @@
 // Author - Vaishakh K
 package graphtraversal;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
-public class BreadthFirstTraversal implements GraphTraversal{
-  @Override
-  public void search(Graph graph, int sourceVertex) {
-    Queue<Integer> queue = new LinkedList<Integer>();
-    Set<Integer> visited = new HashSet<Integer>();
+public class BreadthFirstTraversal {
+  public static void main(String[] args) {
+    Map<Character, HashSet<Character>> graph = getGraph();
+    printTraversedTree(traverse(graph, 'a'));
+  }
 
-    queue.add(sourceVertex);
-    visited.add(sourceVertex);
+  public static ArrayList<Character> traverse(Map<Character, HashSet<Character>> graph, Character root) {
+    ArrayList<Character> bfsTraversed = new ArrayList<Character>();
+    Queue<Character> queue = new LinkedList<Character>();
+    Set<Character> visited = new HashSet<Character>();
 
-    while (queue.size() > 0) {
-      Integer vertex = queue.poll();
-      System.out.format("Vertex %d\n", vertex);
-      LinkedList<Integer> adjacentVertices = graph.edges[vertex];
-      for (int idx = 0; idx < adjacentVertices.size(); idx++) {
-        Integer adjVertex = adjacentVertices.get(idx);
-        if (!visited.contains(adjVertex)) {
-          queue.add(adjVertex);
-          visited.add(adjVertex);
+    queue.add(root);
+    visited.add(root);
+
+    while (!queue.isEmpty()) {
+      Character ch = queue.poll();
+      bfsTraversed.add(ch);
+
+      if (graph.containsKey(ch)) {
+        for (Character adjNode: graph.get(ch)) {
+          if (!visited.contains(adjNode)) {
+            queue.add(adjNode);
+            visited.add(adjNode);
+          }
         }
       }
     }
+
+    return bfsTraversed;
   }
 
-  public static void main (String[] args) {
-    BreadthFirstTraversal breadthFirstTraversal = new BreadthFirstTraversal();
-    Graph graph = new Graph(5);
+  public static void printTraversedTree(ArrayList<Character> traversedTree) {
+    for (Character ch: traversedTree) {
+      System.out.format("%c ", ch);
+    }
+    System.out.println("");
+  }
 
-    graph.addEdge(0, 0);
-    graph.addEdge(0, 2);
-    graph.addEdge(0, 3);
-    graph.addEdge(2, 3);
-    graph.addEdge(2, 4);
-    graph.addEdge(2, 2);
-    graph.addEdge(3, 0);
-    graph.addEdge(3, 1);
+  public static Map<Character, HashSet<Character>> getGraph() {
+    Graph graph = new Graph();
+    graph.addEdge('a', 'b');
+    graph.addEdge('a', 'c');
+    graph.addEdge('b', 'd');
+    graph.addEdge('c', 'e');
+    graph.addEdge('d', 'f');
 
-    int sourceVertex = 0;
-    System.out.println("Breadth First Traversal:");
-    breadthFirstTraversal.search(graph, sourceVertex);
+    return graph.getGraph();
   }
 }
