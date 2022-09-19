@@ -68,6 +68,7 @@ public class AlienDictionary {
       }
     }
 
+    // Check if invalid
     if (order.toString().length() < countMap.size()) {
       return "";
     }
