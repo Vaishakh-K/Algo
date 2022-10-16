@@ -19,40 +19,32 @@ public class SpiralMatrix {
 
     List<Integer> spiralList = new ArrayList<Integer>();
 
-    if (rows == 1) {
-      for (int c = 0; c < cols; c++) {
-        spiralList.add(matrix[0][c]);
-      }
-      return spiralList;
-    }
-
-    if (cols == 1) {
-      for (int r = 0; r < rows; r++) {
-        spiralList.add(matrix[r][0]);
-      }
-      return spiralList;
-    }
-
     int startRow = 0;
     int endRow = rows - 1;
     int startCol = 0;
     int endCol = cols - 1;
 
     while (startRow <= endRow && startCol <= endCol) {
+      // Totally 4 movements.
+
+      // Left to Right.
       for (int c = startCol; c <= endCol; c++) {
         spiralList.add(matrix[startRow][c]);
       }
 
+      // Top to Bottom.
       for (int r = startRow + 1; r <= endRow; r++) {
         spiralList.add(matrix[r][endCol]);
       }
 
+      // Right to Left. Only if not the same row covered when moving left to right.
       if (startRow != endRow) {
         for (int c = endCol - 1; c >= startCol; c--) {
           spiralList.add(matrix[endRow][c]);
         }
       }
 
+      // Bottom to Top. Only if not the same column covered when moving top to bottom.
       if (startCol != endCol) {
         for (int r = endRow - 1; r > startRow; r--) {
           spiralList.add(matrix[r][startCol]);
