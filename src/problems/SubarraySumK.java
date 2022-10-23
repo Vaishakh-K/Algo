@@ -1,3 +1,5 @@
+// Author: Vaishakh
+// LeetCode Problem Link: https://leetcode.com/problems/subarray-sum-equals-k/
 package problems;
 
 import java.util.HashMap;
@@ -47,7 +49,7 @@ public class SubarraySumK {
     int sum = 0;
     for (int element : array) {
       sum += element;
-      // If the 
+      // If the
       if (sumCountMap.containsKey(sum - k)) {
         count += sumCountMap.get(sum - k);
       }

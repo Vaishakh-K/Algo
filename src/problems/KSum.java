@@ -1,3 +1,5 @@
+// Author - Vaishakh K
+// Generalized solution of 2Sum, 3Sum. Return list of unique arrays of len k from given array that sum to a target.
 package problems;
 
 import java.util.ArrayList;
