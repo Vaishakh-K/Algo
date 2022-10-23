@@ -18,32 +18,29 @@ public class ReorderLogFiles {
 
   public static String[] reorderLogFiles(String[] logs) {
     int numLogs = logs.length;
-    Comparator<String> comparator = new Comparator<String>() {
-      @Override
-      public int compare(String s1, String s2) {
-        // Each String is of the form -> identifier words
-        // Letter logs before digit logs
-        // Letter logs sorted lexicographically based on their content
-        // Digit logs maintain their relative ordering
+    Comparator<String> comparator = (s1, s2) -> {
+      // Each String is of the form -> identifier words
+      // Letter logs before digit logs
+      // Letter logs sorted lexicographically based on their content
+      // Digit logs maintain their relative ordering
 
-        String[] s1Split = s1.split(" ", 2);
-        String[] s2Split = s2.split(" ", 2);
+      String[] s1Split = s1.split(" ", 2);
+      String[] s2Split = s2.split(" ", 2);
 
-        char s1WordFirstChar = s1Split[1].charAt(0);
-        char s2WordFirstChar = s2Split[1].charAt(0);
+      char s1WordFirstChar = s1Split[1].charAt(0);
+      char s2WordFirstChar = s2Split[1].charAt(0);
 
-        if (Character.isLetter(s1WordFirstChar) && Character.isDigit(s2WordFirstChar)) {
-          return -1;
-        } else if (Character.isDigit(s1WordFirstChar) && Character.isLetter(s2WordFirstChar)) {
-          return 1;
-        } else if (Character.isDigit(s1WordFirstChar) && Character.isDigit(s2WordFirstChar)) {
-          return 0;
+      if (Character.isLetter(s1WordFirstChar) && Character.isDigit(s2WordFirstChar)) {
+        return -1;
+      } else if (Character.isDigit(s1WordFirstChar) && Character.isLetter(s2WordFirstChar)) {
+        return 1;
+      } else if (Character.isDigit(s1WordFirstChar) && Character.isDigit(s2WordFirstChar)) {
+        return 0;
+      } else {
+        if (s1Split[1].equals(s2Split[1])) {
+          return s1Split[0].compareTo(s2Split[0]);
         } else {
-          if (s1Split[1].equals(s2Split[1])) {
-            return s1Split[0].compareTo(s2Split[0]);
-          } else {
-            return s1Split[1].compareTo(s2Split[1]);
-          }
+          return s1Split[1].compareTo(s2Split[1]);
         }
       }
     };
