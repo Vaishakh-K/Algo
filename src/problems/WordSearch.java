@@ -15,39 +15,34 @@ public class WordSearch {
     return (r >= 0 && r < rows && c >= 0 && c < cols && visited[r][c] == 0);
   }
 
-  public static boolean hasWord(char[][] board, String word, int[][] visited, StringBuilder sb, int r, int c) {
-    if (!isValidIndex(board.length, board[0].length, r, c, visited)) {
-      return false;
-    }
-    visited[r][c] = 1;
-    sb.append(board[r][c]);
-
-    if (sb.toString().length() > word.length()) {
-      visited[r][c] = 0;
-      sb.deleteCharAt(sb.length() - 1);
+  public static boolean hasWord(char[][] board, String word, int[][] visited, int charIdx, int r, int c) {
+    if (!isValidIndex(board.length, board[0].length, r, c, visited) || charIdx >= word.length()) {
       return false;
     }
 
-    if (sb.toString().compareTo(word) == 0) {
+    if (word.charAt(charIdx) != board[r][c]) {
+      return  false;
+    }
+
+    if (charIdx == word.length() - 1) {
       return true;
     }
 
-    int sbLen = sb.toString().length();
-    if (sb.toString().compareTo(word.substring(0, sbLen)) != 0) {
-      visited[r][c] = 0;
-      sb.deleteCharAt(sb.length() - 1);
-      return false;
-    }
-
+    // The path is valid so far. Hence mark visited and move in 4 directions
+    visited[r][c] = 1;
     boolean result = false;
     for (int i = 0; i < 4; i++) {
-      result = result || hasWord(board, word, visited, sb, r + directions[i][0], c + directions[i][1]);
+      result = hasWord(board, word, visited, charIdx + 1, r + directions[i][0], c + directions[i][1]);
+
+      // If one path works then we can stop further processing
+      if (result) {
+        return true;
+      }
     }
 
+    // For backtracking mark the cell is not visited and proceed
     visited[r][c] = 0;
-    sb.deleteCharAt(sb.length() - 1);
     return result;
-
   }
 
   public static boolean exist(char[][] board, String word) {
@@ -57,9 +52,9 @@ public class WordSearch {
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
         if (board[r][c] == word.charAt(0)) {
-          StringBuilder sb = new StringBuilder();
+          int charIdx = 0;
           int[][] visited = new int[rows][cols];
-          if (hasWord(board, word, visited, sb, r, c)) {
+          if (hasWord(board, word, visited, charIdx, r, c)) {
             return true;
           }
         }
