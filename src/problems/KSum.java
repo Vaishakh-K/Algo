@@ -9,15 +9,15 @@ import java.util.List;
 public class KSum {
   public List<List<Integer>> resultList = new ArrayList<>();
   public static void main (String[] args) {
-    KSum kSum = new KSum();
-    kSum.computeKSum();
-  }
-
-  public void computeKSum() {
     int[] array = new int[] {1,0,-1,0,-2,2};
     int target = 0;
     int k = 4;
 
+    KSum kSum = new KSum();
+    kSum.computeKSum(array, target, k);
+  }
+
+  public void computeKSum(int[] array, int target, int k) {
     ArrayList<Integer> list = new ArrayList<>();
     Arrays.sort(array);
     this.getUniqueListsOfK(array, target, k, 0, list);
@@ -27,6 +27,7 @@ public class KSum {
       }
       System.out.println("");
     }
+    System.out.println("");
   }
 
   public void getUniqueListsOfK(int[] array, int target, int k, int start, ArrayList<Integer> list) {
